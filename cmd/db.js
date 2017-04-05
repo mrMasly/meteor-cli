@@ -80,49 +80,32 @@ var get = function(mc) {
         console.log("Готово!".green);
       } else {
         one = collections[i]
-        inquirer.prompt([{
-          type: 'input',
-          name: 'query',
-          message: 'mongo query'
-        }]).then(function(an) {
 
-          query = an.query
+        // получаем названия файла для дампа
+        file = path+'/'+one+'.json';
 
+        var dir = require('path').dirname(process.env.PWD)
 
-          // получаем названия файла для дампа
-          file = path+'/'+one+'.json';
-
-          var dir = require('path').dirname(process.env.PWD)
-
-          // делаем дамп на сервере
-          add = ''
-          if(query) {add = '--query \''+query+'\'';}
-          var dump = "ssh "+user+"@"+ip+" 'mongoexport -h localhost -d "+mc.remote.db+" -c "+one+" > "+file+" "+add+"'";
-          // копируем на компьютер (в родительскую папку проекта)
-          var copy = "rsync -a "+user+"@"+ip+":"+file+" "+dir;
-          // загружаем в БД
-
-          if(query) {
-            var imprt = 'mongo --eval "db.'+mc.db+'.remove('+query+')";';
-            imprt+= "mongoimport -h localhost:27017 -d "+mc.db+" -c "+one+" < "+dir+"/"+one+".json";
-          } else {
-            var imprt = "mongoimport -h localhost:27017 -d "+mc.db+" -c "+one+" < "+dir+"/"+one+".json --drop --batchSize 1";
-          }
+        // делаем дамп на сервере
+        var dump = "ssh "+user+"@"+ip+" 'mongoexport -h localhost -d "+mc.remote.db+" -c "+one+" > "+file+"'";
+        // копируем на компьютер (в родительскую папку проекта)
+        var copy = "rsync -a "+user+"@"+ip+":"+file+" "+dir;
+        // загружаем в БД
+        var imprt = "mongoimport -h localhost:27017 -d "+mc.db+" -c "+one+" < "+dir+"/"+one+".json --drop --batchSize 1";
 
 
+        // удаляем все дампы
+        var del = "rm "+dir+"/"+one+".json; ssh "+user+"@"+ip+" 'rm "+file+"'";
 
-          // удаляем все дампы
-          var del = "rm "+dir+"/"+one+".json; ssh "+user+"@"+ip+" 'rm "+file+"'";
+        console.log("Получаем "+one.yellow+"...");
 
-          console.log("Получаем "+one.yellow+"...");
+        exec(dump);
+        exec(copy);
+        exec(imprt);
+        exec(del);
 
-          exec(dump);
-          exec(copy);
-          exec(imprt);
-          exec(del);
+        make(i+1);
 
-          make(i+1);
-        });
 
       }
 
