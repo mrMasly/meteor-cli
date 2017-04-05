@@ -23,7 +23,7 @@ module.exports = function() {
   }
 
   let scripts = {}
-  let mongo = `mongod --syslog & MONGO_URL=mongodb://localhost:27017/${mc.db};`
+  let mongo = `mongod --syslog & export MONGO_URL=mongodb://localhost:27017/${mc.db};`
   scripts['start'] = mongo+` meteor run;`
   scripts['production'] = mongo+` meteor run --production;`
 

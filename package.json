@@ -1,6 +1,6 @@
 {
   "name": "@mrmasly/mc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "mrMasly meteor - консольный помощник",
   "main": "main.js",
   "author": "mrMasly",
