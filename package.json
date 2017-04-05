@@ -1,0 +1,22 @@
+{
+  "name": "@mrmasly/mc",
+  "version": "0.0.1",
+  "description": "mrMasly meteor - консольный помощник",
+  "main": "main.js",
+  "author": "mrMasly",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "commander": "^2.9.0",
+    "fibers": "^1.0.14",
+    "fs-extra": "^0.30.0",
+    "globwatcher": "^1.4.1",
+    "inquirer": "^1.0.3",
+    "lodash": "^4.12.0",
+    "prompt": "^1.0.0",
+    "watch": "^0.18.0"
+  },
+  "bin": {
+    "mc": "./main.js"
+  }
+}
