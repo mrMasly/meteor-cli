@@ -31,10 +31,10 @@ module.exports = function() {
     let ssh = `ssh root@${mc.remote.ip}`;
     let service = `service ${mc.remote.service}`;
     scripts['deploy'] = `mc deploy; ${ssh} ${service} start`;
-    scripts['remote-log'] = `${ssh} tail /var/log/syslog -n 1000 -f | grep ${mc.remove.service}`;
-    scripts['remote-start'] = `${ssh} ${service} start`;
-    scripts['remote-restart'] = `${ssh} ${service} restart`;
-    scripts['remote-stop'] = `${ssh} ${service} stop`;
+    scripts['remote:log'] = `${ssh} tail /var/log/syslog -n 1000 -f | grep ${mc.remote.service}`;
+    scripts['remote:start'] = `${ssh} ${service} start`;
+    scripts['remote:restart'] = `${ssh} ${service} restart`;
+    scripts['remote:stop'] = `${ssh} ${service} stop`;
   }
 
   json.scripts = scripts;
